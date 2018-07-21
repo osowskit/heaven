@@ -1,0 +1,11 @@
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/bin/ruby -r ./siteconf20180720-19880-wl3qfv.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling debug_inspector.c
+linking shared-object debug_inspector.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 debug_inspector.bundle ./.gem.20180720-19880-tzmzti

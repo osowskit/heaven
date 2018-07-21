@@ -1,0 +1,15 @@
+sudo: false
+language: ruby
+cache: bundler
+script: bundle exec rspec
+rvm:
+  - 2.4.1
+env:
+  matrix:
+    - RAILS_VERSION=4
+    - RAILS_VERSION=5
+    - RAILS_VERSION=master
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: RAILS_VERSION=master

@@ -1,0 +1,14 @@
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/bin/ruby -r ./siteconf20180720-19880-rhff2v.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling codepoints.c
+compiling adj_matrix.c
+compiling jaro.c
+compiling jaro_winkler.c
+linking shared-object jaro_winkler/jaro_winkler_ext.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 jaro_winkler_ext.bundle ./.gem.20180720-19880-t5kyl1/jaro_winkler

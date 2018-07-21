@@ -1,0 +1,12 @@
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/bin/ruby -r ./siteconf20180720-19880-498pjc.rb extconf.rb
+
+make "DESTDIR=" clean
+make: *** No rule to make target `clean'.  Stop.
+
+make "DESTDIR="
+echo "Nada."
+Nada.
+
+make "DESTDIR=" install
+echo "Nada."
+Nada.

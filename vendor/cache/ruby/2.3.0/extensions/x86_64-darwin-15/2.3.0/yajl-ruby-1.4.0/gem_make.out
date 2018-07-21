@@ -1,0 +1,39 @@
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/bin/ruby -r ./siteconf20180720-19880-opwo52.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling yajl_ext.c
+compiling yajl_parser.c
+compiling yajl_alloc.c
+compiling yajl_lex.c
+yajl_lex.c:42:13: warning: enumeration value 'yajl_tok_comment' not handled in switch [-Wswitch]
+    switch (tok) {
+            ^
+yajl_lex.c:42:13: note: add missing switch cases
+    switch (tok) {
+            ^
+1 warning generated.
+compiling yajl_gen.c
+yajl_gen.c:295:5: warning: implicit conversion from enumeration type 'yajl_gen_state' to different enumeration type 'yajl_gen_status' [-Wenum-conversion]
+    DECREMENT_DEPTH;
+    ^~~~~~~~~~~~~~~
+yajl_gen.c:181:48: note: expanded from macro 'DECREMENT_DEPTH'
+    if (--(g->depth) >= YAJL_MAX_DEPTH) return yajl_gen_error;
+                                        ~~~~~~ ^~~~~~~~~~~~~~
+yajl_gen.c:321:5: warning: implicit conversion from enumeration type 'yajl_gen_state' to different enumeration type 'yajl_gen_status' [-Wenum-conversion]
+    DECREMENT_DEPTH;
+    ^~~~~~~~~~~~~~~
+yajl_gen.c:181:48: note: expanded from macro 'DECREMENT_DEPTH'
+    if (--(g->depth) >= YAJL_MAX_DEPTH) return yajl_gen_error;
+                                        ~~~~~~ ^~~~~~~~~~~~~~
+2 warnings generated.
+compiling yajl_version.c
+compiling yajl_buf.c
+compiling yajl.c
+compiling yajl_encode.c
+linking shared-object yajl/yajl.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 yajl.bundle ./.gem.20180720-19880-vc1fg5/yajl

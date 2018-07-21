@@ -1,0 +1,106 @@
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/bin/ruby -r ./siteconf20180720-19880-18ukf41.rb extconf.rb --use-system-libraries
+Extracting libxml2-2.8.0.tar.gz into tmp/x86_64-apple-darwin17.6.0/ports/libxml2/2.8.0... OK
+Running 'configure' for libxml2 2.8.0... OK
+Running 'compile' for libxml2 2.8.0... OK
+Running 'install' for libxml2 2.8.0... OK
+Activating libxml2 2.8.0 (from /Users/osowskit/Workbench/heroku/heaven-github-app/vendor/cache/ruby/2.3.0/gems/nokogiri-1.6.0/ports/x86_64-apple-darwin17.6.0/libxml2/2.8.0)...
+Extracting libxslt-1.1.26.tar.gz into tmp/x86_64-apple-darwin17.6.0/ports/libxslt/1.1.26... OK
+Running 'configure' for libxslt 1.1.26... OK
+Running 'compile' for libxslt 1.1.26... OK
+Running 'install' for libxslt 1.1.26... OK
+Activating libxslt 1.1.26 (from /Users/osowskit/Workbench/heroku/heaven-github-app/vendor/cache/ruby/2.3.0/gems/nokogiri-1.6.0/ports/x86_64-apple-darwin17.6.0/libxslt/1.1.26)...
+checking for libxml/parser.h... yes
+checking for libxslt/xslt.h... yes
+checking for libexslt/exslt.h... yes
+checking for iconv_open() in iconv.h... no
+checking for iconv_open() in -liconv... yes
+checking for xmlParseDoc() in -lxml2... yes
+checking for xsltParseStylesheetDoc() in -lxslt... yes
+checking for exsltFuncRegister() in -lexslt... yes
+checking for xmlHasFeature()... yes
+checking for xmlFirstElementChild()... yes
+checking for xmlRelaxNGSetParserStructuredErrors()... yes
+checking for xmlRelaxNGSetParserStructuredErrors()... yes
+checking for xmlRelaxNGSetValidStructuredErrors()... yes
+checking for xmlSchemaSetValidStructuredErrors()... yes
+checking for xmlSchemaSetParserStructuredErrors()... yes
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling xml_comment.c
+compiling xml_element_content.c
+compiling html_element_description.c
+html_element_description.c:252:48: warning: cast from 'const struct _htmlElemDesc *' to 'void *' drops const qualifier [-Wcast-qual]
+  return Data_Wrap_Struct(klass, 0, 0, (void *)description);
+                                               ^
+1 warning generated.
+compiling nokogiri.c
+compiling xml_element_decl.c
+compiling xml_node_set.c
+xml_node_set.c:9:24: warning: cast from 'const unsigned char *' to 'unsigned char *' drops const qualifier [-Wcast-qual]
+    xmlFree((xmlChar *)ns->href);
+                       ^
+xml_node_set.c:11:24: warning: cast from 'const unsigned char *' to 'unsigned char *' drops const qualifier [-Wcast-qual]
+    xmlFree((xmlChar *)ns->prefix);
+                       ^
+2 warnings generated.
+compiling xml_namespace.c
+compiling xml_encoding_handler.c
+compiling xml_libxml2_hacks.c
+compiling xml_relax_ng.c
+compiling xml_sax_push_parser.c
+compiling html_sax_parser_context.c
+compiling xslt_stylesheet.c
+xslt_stylesheet.c:217:21: warning: incompatible pointer to integer conversion passing 'void *' to parameter of type 'VALUE' (aka 'unsigned long') [-Wint-conversion]
+    Data_Get_Struct(ctxt->style->_private, nokogiriXsltStylesheetTuple,
+                    ^~~~~~~~~~~~~~~~~~~~~
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/ruby.h:1205:41: note: expanded from macro 'Data_Get_Struct'
+    ((sval) = (type*)rb_data_object_get(obj))
+                                        ^~~
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/ruby.h:1397:26: note: passing argument to parameter 'obj' here
+rb_data_object_get(VALUE obj)
+                         ^
+xslt_stylesheet.c:230:21: warning: incompatible pointer to integer conversion passing 'void *' to parameter of type 'VALUE' (aka 'unsigned long') [-Wint-conversion]
+    Data_Get_Struct(ctxt->style->_private, nokogiriXsltStylesheetTuple,
+                    ^~~~~~~~~~~~~~~~~~~~~
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/ruby.h:1205:41: note: expanded from macro 'Data_Get_Struct'
+    ((sval) = (type*)rb_data_object_get(obj))
+                                        ^~~
+/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/ruby.h:1397:26: note: passing argument to parameter 'obj' here
+rb_data_object_get(VALUE obj)
+                         ^
+2 warnings generated.
+compiling html_document.c
+compiling xml_sax_parser_context.c
+compiling xml_xpath_context.c
+compiling html_entity_lookup.c
+compiling xml_sax_parser.c
+compiling xml_reader.c
+compiling xml_syntax_error.c
+compiling xml_node.c
+compiling xml_attr.c
+compiling html_sax_push_parser.c
+compiling xml_schema.c
+compiling xml_dtd.c
+compiling xml_entity_decl.c
+compiling xml_attribute_decl.c
+compiling xml_io.c
+compiling xml_entity_reference.c
+compiling xml_processing_instruction.c
+compiling xml_text.c
+compiling xml_document_fragment.c
+compiling xml_document.c
+xml_document.c:159:21: warning: cast from 'const unsigned char *' to 'char *' drops const qualifier [-Wcast-qual]
+      free((char *) doc->encoding); /* this may produce a gcc cast warning */
+                    ^
+xml_document.c:505:26: warning: cast from 'const char *' to 'unsigned char *' drops const qualifier [-Wcast-qual]
+      ns[i] = (xmlChar*) ptr;
+                         ^
+2 warnings generated.
+compiling xml_cdata.c
+linking shared-object nokogiri/nokogiri.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 nokogiri.bundle ./.gem.20180720-19880-enozct/nokogiri

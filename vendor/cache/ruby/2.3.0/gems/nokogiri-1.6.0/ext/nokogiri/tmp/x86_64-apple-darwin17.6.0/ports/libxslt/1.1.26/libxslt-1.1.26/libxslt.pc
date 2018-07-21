@@ -1,0 +1,12 @@
+prefix=/Users/osowskit/Workbench/heroku/heaven-github-app/vendor/cache/ruby/2.3.0/gems/nokogiri-1.6.0/ports/x86_64-apple-darwin17.6.0/libxslt/1.1.26
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+
+Name: libxslt
+Version: 1.1.26
+Description: XSLT library version 2.
+Requires: libxml-2.0
+Libs: -L${libdir} -lxslt  -L/Users/osowskit/Workbench/heroku/heaven-github-app/vendor/cache/ruby/2.3.0/gems/nokogiri-1.6.0/ports/x86_64-apple-darwin17.6.0/libxml2/2.8.0/lib -lxml2 -lz -lpthread -liconv -lm 
+Cflags: -I${includedir}
