@@ -1,0 +1,103 @@
+"gcc -o conftest -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe  conftest.c  -L. -L/Users/osowskit/.rvm/rubies/ruby-2.3.1/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib -L. -fstack-protector -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib     -lruby.2.3.0  -lpthread -lgmp -ldl -lobjc  "
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+"gcc -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe    -Werror -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe  -Wno-error=unused-command-line-argument-hard-error-in-future   -Werror -c conftest.c"
+error: unknown warning option '-Werror=unused-command-line-argument-hard-error-in-future'; did you mean '-Werror=unused-command-line-argument'? [-Werror,-Wunknown-warning-option]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+| pkg-config --libs libxml-2.0
+=> "-lxml2\n"
+"gcc -o conftest -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe  -O3 -Wall -Wcast-qual -Wwrite-strings -Wextra -Wmissing-noreturn -Winline conftest.c  -L. -L/Users/osowskit/.rvm/rubies/ruby-2.3.1/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib -L. -fstack-protector -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib     -lruby.2.3.0 -lxml2 -lpthread -lgmp -ldl -lobjc  "
+conftest.c:3:14: warning: unused parameter 'argc' [-Wunused-parameter]
+int main(int argc, char **argv)
+             ^
+conftest.c:3:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+2 warnings generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+package configuration for libxml-2.0 is not found
+| pkg-config --libs libxslt
+=> "-lxslt -lxml2 -lz -lpthread -licucore -lm -lxml2\n"
+"gcc -o conftest -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe  -O3 -Wall -Wcast-qual -Wwrite-strings -Wextra -Wmissing-noreturn -Winline conftest.c  -L. -L/Users/osowskit/.rvm/rubies/ruby-2.3.1/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib -L. -fstack-protector -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib     -lruby.2.3.0 -lxslt -lxml2 -lz -lpthread -licucore -lm -lxml2 -lpthread -lgmp -ldl -lobjc  "
+conftest.c:3:14: warning: unused parameter 'argc' [-Wunused-parameter]
+int main(int argc, char **argv)
+             ^
+conftest.c:3:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+2 warnings generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+package configuration for libxslt is not found
+| pkg-config --libs libexslt
+=> "-lexslt -lxslt -lxml2 -lz -lpthread -licucore -lm -lxml2\n"
+"gcc -o conftest -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe  -O3 -Wall -Wcast-qual -Wwrite-strings -Wextra -Wmissing-noreturn -Winline conftest.c  -L. -L/Users/osowskit/.rvm/rubies/ruby-2.3.1/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib -L. -fstack-protector -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/readline/lib -L/usr/local/opt/libksba/lib -L/usr/local/opt/openssl/lib     -lruby.2.3.0 -lexslt -lxslt -lxml2 -lz -lpthread -licucore -lm -lxml2 -lpthread -lgmp -ldl -lobjc  "
+conftest.c:3:14: warning: unused parameter 'argc' [-Wunused-parameter]
+int main(int argc, char **argv)
+             ^
+conftest.c:3:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+2 warnings generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+package configuration for libexslt is not found
+"gcc -E -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/x86_64-darwin15 -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0/ruby/backward -I/Users/osowskit/.rvm/rubies/ruby-2.3.1/include/ruby-2.3.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/readline/include -I/usr/local/opt/libksba/include -I/usr/local/opt/openssl/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT    -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -fno-common -pipe  -O3 -Wall -Wcast-qual -Wwrite-strings -Wextra -Wmissing-noreturn -Winline  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'libxml/xmlversion.h' file not found
+#include <libxml/xmlversion.h>
+         ^~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/xmlversion.h>
+/* end */
+
