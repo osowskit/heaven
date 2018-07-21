@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20140728040201) do
     t.string   "output"
     t.string   "ref"
     t.string   "sha"
+    t.string   "installation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "repository_id"

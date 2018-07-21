@@ -15,7 +15,7 @@ module Heaven
       end
 
       def archive_link
-        @archive_link ||= api.archive_link(name_with_owner, :ref => sha)
+        @archive_link ||= api(installation_id).archive_link(name_with_owner, :ref => sha)
       end
 
       def archive_path

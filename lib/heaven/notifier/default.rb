@@ -108,6 +108,10 @@ module Heaven
         deployment_payload["notify"]["room"]
       end
 
+      def installation_id
+        deployment_payload["installation"]["id"]
+      end
+      
       def repo_name
         deployment_payload["name"] || data["repository"]["name"]
       end
@@ -153,7 +157,7 @@ module Heaven
       end
 
       def comparison
-        @comparison ||= api.compare(name_with_owner, last_known_revision, sha).as_json
+        @comparison ||= api(installation_id).compare(name_with_owner, last_known_revision, sha).as_json
       end
 
       def last_known_revision

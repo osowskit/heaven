@@ -5,7 +5,7 @@ module LocalLogFile
 
   def working_directory
     @working_directory ||= "/tmp/" + \
-      Digest::SHA1.hexdigest([name_with_owner, github_token].join)
+      Digest::SHA1.hexdigest([name_with_owner, github_client_secret].join)
   end
 
   def checkout_directory

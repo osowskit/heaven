@@ -7,11 +7,12 @@ class Deployment
     attr_accessor :description, :number, :nwo, :output, :completed, :environment_url
     alias_method :completed?, :completed
 
-    def initialize(nwo, number)
+    def initialize(nwo, number, installation_id)
       @nwo         = nwo
       @number      = number
       @completed   = false
       @description = "Deploying from Heaven v#{Heaven::VERSION}"
+      @installation_id = installation_id
     end
 
     class << self
@@ -55,7 +56,7 @@ class Deployment
       if Heaven.testing?
         self.class.deliveries << payload.merge("status" => status)
       else
-        api.create_deployment_status(url, status, payload)
+        api(@installation_id).create_deployment_status(url, status, payload)
       end
 
       @completed = completed

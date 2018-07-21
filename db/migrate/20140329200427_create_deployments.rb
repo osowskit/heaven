@@ -9,7 +9,7 @@ class CreateDeployments < ActiveRecord::Migration
       t.string :output
       t.string :ref,             :required => true
       t.string :sha,             :required => true
-
+      t.string :installation_id, :required => true
       t.timestamps
     end
   end

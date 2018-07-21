@@ -9,15 +9,14 @@ class AutoDeployment
     @deployment    = deployment
   end
 
-  delegate :author, :branches, :default_branch, :name_with_owner, :sha,
-    :to => :commit_status
+  delegate :author, :branches, :default_branch, :name_with_owner, :sha, :installation_id, :to  => :commit_status
 
   def combined_status_green?
     aggregate["state"] == "success"
   end
 
   def aggregate
-    @aggregate ||= api.combined_status(name_with_owner, sha)
+    @aggregate ||= api(installation_id).combined_status(name_with_owner, sha)
   end
 
   def updated_payload
@@ -25,7 +24,7 @@ class AutoDeployment
   end
 
   def compare
-    @compare ||= api.compare(name_with_owner, deployment.sha, sha)
+    @compare ||= api(installation_id).compare(name_with_owner, deployment.sha, sha)
   end
 
   def ahead?
@@ -34,7 +33,7 @@ class AutoDeployment
 
   def create_deployment
     description = "Heaven auto deploy triggered by a commit status change"
-    api.create_deployment(name_with_owner, sha,
+    api(installation_id).create_deployment(name_with_owner, sha,
       :payload => updated_payload,
       :environment => deployment.environment,
       :description => description

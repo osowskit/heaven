@@ -21,11 +21,11 @@ module Heaven
       end
 
       def output
-        @output ||= Deployment::Output.new(name, number, guid)
+        @output ||= Deployment::Output.new(name, number, guid, installation_id)
       end
 
       def status
-        @status ||= Deployment::Status.new(name_with_owner, number)
+        @status ||= Deployment::Status.new(name_with_owner, number, installation_id)
       end
 
       def redis
@@ -51,6 +51,10 @@ module Heaven
 
       def name
         name_with_owner
+      end
+
+      def installation_id 
+        data["installation"]["id"]
       end
 
       def name_with_owner
@@ -95,8 +99,8 @@ module Heaven
 
       def clone_url
         uri = Addressable::URI.parse(repository_url)
-        uri.user = github_token
-        uri.password = ""
+        uri.user = "x-access-token"
+        uri.password = github_token(installation_id)
         uri.to_s
       end
 
@@ -141,7 +145,7 @@ module Heaven
         warn "Heaven Provider(#{name}) didn't implement notify"
       end
 
-      def record
+      def record      
         Deployment.create(:custom_payload  => JSON.dump(custom_payload),
                           :environment     => environment,
                           :guid            => guid,
@@ -149,7 +153,8 @@ module Heaven
                           :name_with_owner => name_with_owner,
                           :output          => output.url,
                           :ref             => ref,
-                          :sha             => sha)
+                          :sha             => sha,
+                          :installation_id => installation_id)
       end
 
       def update_output

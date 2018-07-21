@@ -114,7 +114,7 @@ module Heaven
       end
 
       def fetch_previous_deployment(page = 1)
-        deployments = api.deployments(
+        deployments = api(installation_id).deployments(
           data["repository"]["full_name"],
           :environment => environment,
           :page => page,
@@ -123,7 +123,7 @@ module Heaven
         return nil if deployments.length == 0
         successfull = deployments.find do |deployment|
           deployment.id < deployment_number &&
-            api.deployment_statuses(deployment.url, :accept => "application/vnd.github.cannonball-preview+json")
+            api(installation_id).deployment_statuses(deployment.url, :accept => "application/vnd.github.cannonball-preview+json")
               .any? { |status| status.state == "success" }
         end
         if successfull.nil?

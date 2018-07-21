@@ -28,7 +28,8 @@ class Receiver
     if data["repository"]
       name  = data["repository"]["name"]
       owner = data["repository"]["owner"]["login"]
-      repository = Repository.find_or_create_by(:name => name, :owner => owner)
+      installation_id = data["installation"]["id"]
+      repository = Repository.find_or_create_by(:name => name, :owner => owner, :installation_id => installation_id)
       repository.active?
     else
       false
