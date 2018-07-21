@@ -14,7 +14,7 @@ gem "faraday_middleware"
 gem "jwt"
 gem "dotenv"
 gem 'pg', '~> 0.18.4'
-gem 'nokogiri', '1.8'
+gem 'nokogiri', '1.8.2'
 # Providers
 gem "dpl",        "1.5.7"
 gem "aws-sdk"
