@@ -13,7 +13,8 @@ gem "faraday"
 gem "faraday_middleware"
 gem "jwt"
 gem "dotenv"
-
+gem 'pg', '~> 0.18.4'
+gem 'nokogiri', '1.8'
 # Providers
 gem "dpl",        "1.5.7"
 gem "aws-sdk"
@@ -42,6 +43,5 @@ group :development do
 end
 
 group :staging, :production do
-  gem "pg"
   gem "rails_12factor"
 end
