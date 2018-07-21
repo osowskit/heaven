@@ -17,14 +17,17 @@
   "success_url": "/resque",
   "addons": ["heroku-postgresql", "heroku-redis"],
   "env": {
-    "GITHUB_TOKEN": {
-      "description": "A personal OAuth token from GitHub with repo scope."
-    },
     "GITHUB_CLIENT_ID": {
       "description": "A client id from a GitHub OAuth app you created."
     },
     "GITHUB_CLIENT_SECRET": {
       "description": "A client secret from a GitHub OAuth app you created."
+    },
+    "GITHUB_APP_ID": {
+      "description": "A app id from a GitHub App you created."
+    },
+    "GITHUB_APP_KEY": {
+      "description": "A private key generated for your GitHub App."
     },
     "GITHUB_TEAM_ID": {
       "description": "A GitHub team id number to restrict resque access to. Optional.",
