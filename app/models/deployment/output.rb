@@ -5,16 +5,19 @@ class Deployment
     include ApiClient
     attr_accessor :gist, :guid, :name, :number, :stderr, :stdout
 
-    def initialize(name, number, guid)
+    def initialize(name, number, guid, installation_id)
       @guid   = guid
       @name   = name
       @number = number
       @stdout = ""
       @stderr = ""
+      @installation_id = installation_id
     end
 
     def gist
-      @gist ||= api.create_gist(create_params)
+      # Disable for now
+      return nil
+      @gist ||= api(@installation_id).create_gist(create_params)
     end
 
     def create
@@ -22,7 +25,11 @@ class Deployment
     end
 
     def update
-      api.edit_gist(gist.id, update_params)
+      # disable Gist for now
+      Rails.logger.info update_params
+      return
+      
+      api(@installation_id).edit_gist(gist.id, update_params)
     rescue Octokit::UnprocessableEntity
       Rails.logger.info "Unable to update #{gist.id}, shit's fucked up."
     rescue StandardError => e
@@ -30,6 +37,7 @@ class Deployment
     end
 
     def url
+      return nil
       gist.html_url
     end
 
