@@ -15,7 +15,11 @@
 /log/*.log
 /tmp
 vendor/gems
+vendor/cache
 public/assets
 release.sh
 coverage
 .ruby-version
+.env
+get_token.rb
+travis-check-checker.2018-07-20.private-key.pem

@@ -11,6 +11,8 @@ gem "posix-spawn"
 gem "warden-github-rails"
 gem "faraday"
 gem "faraday_middleware"
+gem "jwt"
+gem "dotenv"
 
 # Providers
 gem "dpl",        "1.5.7"
