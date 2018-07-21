@@ -23,4 +23,4 @@ production:
   adapter: postgresql
   host: localhost
   username: user
-  database: app-devadapter
+  database: app-dev

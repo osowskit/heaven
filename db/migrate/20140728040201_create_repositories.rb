@@ -4,7 +4,7 @@ class CreateRepositories < ActiveRecord::Migration
       t.string  :owner,  :required => true, :nullable => false
       t.string  :name,   :required => true, :nullable => false
       t.boolean :active, :required => true, :default => true
-
+      t.string  :installation_id, :required => true, :nullable => false
       t.timestamps
     end
 
