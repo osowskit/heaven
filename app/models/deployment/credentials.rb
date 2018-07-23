@@ -61,6 +61,8 @@ Host all
     end
 
     def setup_netrc
+      # Disable for GitHub Apps
+      return nil
       File.open(netrc_config, "w", 0600) do |fp|
         fp.puts <<-EOF
 machine github.com

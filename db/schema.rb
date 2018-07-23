@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140728040201) do
     t.string   "owner"
     t.string   "name"
     t.boolean  "active",     default: true
+    t.string   "installation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
