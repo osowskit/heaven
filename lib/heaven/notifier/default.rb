@@ -109,7 +109,7 @@ module Heaven
       end
 
       def installation_id
-        deployment_payload["installation"]["id"]
+        @data["installation"]["id"]
       end
       
       def repo_name
