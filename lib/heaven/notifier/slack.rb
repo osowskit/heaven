@@ -54,10 +54,12 @@ module Heaven
       end
 
       def compare_link
-        puts "in compare_link"
-        puts last_known_revision
-        puts "#{comparison}"
-        "([compare](#{comparison["html_url"]}))" if last_known_revision
+        if last_known_revision
+          comparison_obj = comparison
+          # Nothing to compare for merged branches
+          return "" if comparison_obj.nil?
+          "([compare](#{comparison["html_url"]}))" if last_known_revision
+        end
       end
 
       def slack_webhook_url
