@@ -37,7 +37,7 @@ module Heaven
         when "pending"
           message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link}
         when "queued"
-          message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link}
+          message << " has queued #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}" # 
         when "in_progress"
           message << " started deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link} <- TODO 
         else

@@ -109,6 +109,7 @@ module Heaven
       end
 
       def installation_id
+        puts "found #{data[installation]} in `installatin_id`"
         data["installation"]["id"]
       end
       
@@ -157,8 +158,9 @@ module Heaven
       end
 
       def comparison
-        puts "found #{installation_id} id"
-        @comparison ||= api(installation_id).compare(name_with_owner, last_known_revision, sha).as_json
+        puts "Found #{installation_id} here"
+        id = installation_id
+        @comparison ||= api(id).compare(name_with_owner, last_known_revision, sha).as_json
       end
 
       def last_known_revision
