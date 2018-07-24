@@ -157,14 +157,14 @@ module Heaven
         ENV.key?(DISPLAY_COMMITS_LIMIT_KEY) ? ENV[DISPLAY_COMMITS_LIMIT_KEY].to_i : nil
       end
 
+      def last_known_revision
+        Heaven.redis.get("#{name_with_owner}-#{environment}-revision")
+      end
+
       def comparison
         puts "Found #{installation_id} here"
         id = installation_id
         @comparison ||= api(id).compare(name_with_owner, last_known_revision, sha).as_json
-      end
-
-      def last_known_revision
-        Heaven.redis.get("#{name_with_owner}-#{environment}-revision")
       end
 
       def record_revision
