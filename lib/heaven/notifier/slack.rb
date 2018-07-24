@@ -35,11 +35,11 @@ module Heaven
           message << "'s #{environment} deployment of #{repository_link} has errors. #{ascii_face} "
           message << description unless description =~ /Deploying from Heaven/
         when "pending"
-          message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link}
+          message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}"
         when "queued"
-          message << " has queued #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}" # 
+          message << " has queued #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}" 
         when "in_progress"
-          message << " started deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link} <- TODO 
+          message << " started deploying #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}" 
         else
           puts "Unhandled deployment state, #{state}"
         end
@@ -54,6 +54,9 @@ module Heaven
       end
 
       def compare_link
+        puts "in compare_link"
+        puts last_known_revision
+        puts "#{comparison}"
         "([compare](#{comparison["html_url"]}))" if last_known_revision
       end
 
