@@ -111,6 +111,7 @@ module Heaven
       end
 
       def execute
+        status.started!
         response = build_request
         return unless response.success?
         body   = JSON.parse(response.body)

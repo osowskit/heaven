@@ -30,12 +30,16 @@ class Deployment
         "target_url" => output,
         "description" => description,
         "environment_url" => environment_url,
-        :accept => "application/vnd.github.ant-man-preview+json"
+        :accept => "application/vnd.github.flash-preview"
       }
     end
 
     def pending!
-      create_status(:status => "pending", :completed => false)
+      create_status(:status => "queued", :completed => false)
+    end
+
+    def started!
+      create_status(:status => "in_progress", :completed => false)
     end
 
     def success!
