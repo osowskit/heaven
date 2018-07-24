@@ -162,7 +162,7 @@ module Heaven
 
       def comparison
         return nil if last_known_revision == sha
-        @comparison ||= api(id).compare(name_with_owner, last_known_revision, sha).as_json
+        @comparison ||= api(installation_id).compare(name_with_owner, last_known_revision, sha).as_json
       end
 
       def record_revision
