@@ -35,7 +35,11 @@ module Heaven
           message << "'s #{environment} deployment of #{repository_link} has errors. #{ascii_face} "
           message << description unless description =~ /Deploying from Heaven/
         when "pending"
-          message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}"
+          message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link}
+        when "queued"
+          message << " is deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link}
+        when "in_progress"
+          message << " started deploying #{repository_link("/tree/#{ref}")} to #{environment}" # #{compare_link} <- TODO 
         else
           puts "Unhandled deployment state, #{state}"
         end
