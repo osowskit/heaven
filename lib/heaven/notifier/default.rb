@@ -109,7 +109,7 @@ module Heaven
       end
 
       def installation_id
-        puts "found #{data[installation]} in `installatin_id`"
+        puts "found #{data["installation"]} in `installatin_id`"
         data["installation"]["id"]
       end
       
