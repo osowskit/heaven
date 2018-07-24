@@ -39,7 +39,7 @@ module Heaven
         when "queued"
           message << " has queued #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}" 
         when "in_progress"
-          message << " started deploying #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}" 
+          message << " started deploying #{repository_link("/tree/#{ref}")} to #{environment} #{compare_link}"
         else
           puts "Unhandled deployment state, #{state}"
         end
@@ -57,6 +57,7 @@ module Heaven
         if last_known_revision
           comparison_obj = comparison
           # Nothing to compare for merged branches
+          puts comparison
           return "" if comparison_obj.nil?
           "([compare](#{comparison["html_url"]}))" if last_known_revision
         end
