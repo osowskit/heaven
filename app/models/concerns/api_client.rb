@@ -1,6 +1,8 @@
 # A module to include for easy access to the GitHub API
 require 'jwt'
 require "active_support/core_ext/numeric/time"
+require 'rest_client'
+require 'JSON'
 
 module ApiClient
   extend ActiveSupport::Concern
@@ -9,6 +11,44 @@ module ApiClient
     @jwt_client = Octokit::Client.new(:bearer_token => get_jwt, :api_endpoint => github_api_endpoint, :accept => "application/vnd.github.machine-man-preview+json")  
     access_token = @jwt_client.create_app_installation_access_token(installation_id, :api_endpoint => github_api_endpoint, :accept => "application/vnd.github.machine-man-preview+json")
     access_token.token
+  end
+
+  def create_check_run(installation_id, repo_name, payload)
+    token = github_token(installation_id)
+
+    header = {
+      Accept: "application/vnd.github.antiope-preview+json",
+      Authorization: "token #{token}",
+      user_agent: "heaven-github-app" 
+    }
+
+    rest_url = "https://api.github.com/repos/#{repo_name}/check-runs"
+
+    begin
+      github_result = RestClient.post(rest_url, payload.to_json, header)
+      JSON.parse(github_result.body)
+    rescue RestClient::ExceptionWithResponse => e
+      puts e.response
+    end
+  end
+
+  def update_check_run(installation_id, repo_name, check_run_id, payload)
+    token = github_token(installation_id)
+
+    header = {
+      Accept: "application/vnd.github.antiope-preview+json",
+      Authorization: "token #{token}",
+      user_agent: "heaven-github-app"
+    }
+
+    rest_url = "https://api.github.com/repos/#{repo_name}/check-runs/#{check_run_id}"
+
+    begin
+      github_result = RestClient.patch(rest_url, payload.to_json, header)
+      JSON.parse(github_result.body)
+    rescue RestClient::ExceptionWithResponse => e
+      puts e.response
+    end
   end
 
   def github_client_id

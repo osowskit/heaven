@@ -127,11 +127,15 @@ module Heaven
         if build
           output.stderr = build.stderr
           output.stdout = build.stdout
+          checkrun.stderr = build.stderr
+          checkrun.stdout = build.stdout
         else
           output.stderr = "Unable to create a build"
+          checkrun.stderr = "Unable to create a build"
         end
 
         output.update
+        checkrun.update
         if build && build.success?
           status.success!
         else

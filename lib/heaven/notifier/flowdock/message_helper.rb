@@ -37,6 +37,8 @@ module Heaven
           "Failed deploying #{repo_name} to #{environment}."
         when "pending"
           "Started deploying #{repo_name} to #{environment}."
+        when "queued"
+          "Queued deployment #{repo_name} to #{environment}."
         else
           puts "Unhandled deployment state, #{state}"
         end
