@@ -20,7 +20,7 @@ class Deployment
     end
     
     def create
-      check_run
+      @check_run = create_check_run(installation_id, repo_fullname, create_params)
     end
 
     def check_run_id
