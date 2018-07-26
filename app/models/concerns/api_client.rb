@@ -2,7 +2,7 @@
 require 'jwt'
 require "active_support/core_ext/numeric/time"
 require 'rest_client'
-require 'JSON'
+require 'json'
 
 module ApiClient
   extend ActiveSupport::Concern
@@ -90,9 +90,6 @@ module ApiClient
   def github_app_id
     ENV["GITHUB_APP_ID"] || "<unknown-app-id>"
   end
-
-  
-
 
   def api(installation_id)
     access_token = github_token(installation_id)
