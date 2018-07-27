@@ -109,7 +109,7 @@ module Heaven
       end
 
       def installation_id
-        deployment_payload["installation"]["id"]
+        data["installation"]["id"]
       end
       
       def repo_name
@@ -156,12 +156,13 @@ module Heaven
         ENV.key?(DISPLAY_COMMITS_LIMIT_KEY) ? ENV[DISPLAY_COMMITS_LIMIT_KEY].to_i : nil
       end
 
-      def comparison
-        @comparison ||= api(installation_id).compare(name_with_owner, last_known_revision, sha).as_json
-      end
-
       def last_known_revision
         Heaven.redis.get("#{name_with_owner}-#{environment}-revision")
+      end
+
+      def comparison
+        return nil if last_known_revision == sha
+        @comparison ||= api(installation_id).compare(name_with_owner, last_known_revision, sha).as_json
       end
 
       def record_revision

@@ -15,6 +15,9 @@ gem "jwt"
 gem "dotenv"
 gem 'pg', '~> 0.18.4'
 gem 'nokogiri', '1.8.2'
+gem 'rest-client'
+gem 'json'
+
 # Providers
 gem "dpl",        "1.5.7"
 gem "aws-sdk"

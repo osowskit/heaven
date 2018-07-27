@@ -23,7 +23,11 @@ module Heaven
       def output
         @output ||= Deployment::Output.new(name, number, guid, installation_id)
       end
-
+      
+      def checkrun
+        @check_run ||= Deployment::Checks.new(name_with_owner, number, full_sha, environment, installation_id )
+      end
+      
       def status
         @status ||= Deployment::Status.new(name_with_owner, number, installation_id)
       end
@@ -128,6 +132,7 @@ module Heaven
         credentials.setup!
 
         output.create
+        checkrun.create
         status.output = output.url
         status.environment_url = environment_url
         status.pending!
@@ -164,9 +169,16 @@ module Heaven
         output.update
       end
 
+      def update_check_run
+        checkrun.stderr = File.read(stderr_file) if File.exist?(stderr_file)
+        checkrun.stdout = File.read(stdout_file) if File.exist?(stdout_file)
+        
+        checkrun.update
+      end
+
       def notify
         update_output
-
+        update_check_run
         last_child.success? ? status.success! : status.failure!
       end
 
