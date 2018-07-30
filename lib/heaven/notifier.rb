@@ -3,12 +3,15 @@ require "heaven/notifier/campfire"
 require "heaven/notifier/hipchat"
 require "heaven/notifier/flowdock"
 require "heaven/notifier/slack"
+require "heaven/notifier/particle"
 
 module Heaven
   # The Notifier module
   module Notifier
     def self.for(payload)
-      if slack?
+      if particle?
+        ::Heaven::Notifier::Particle.new(payload)
+      elsif slack?
         ::Heaven::Notifier::Slack.new(payload)
       elsif hipchat?
         ::Heaven::Notifier::Hipchat.new(payload)
@@ -19,6 +22,10 @@ module Heaven
       else
         # noop on posting
       end
+    end
+
+    def self.particle?
+      !ENV["PARTICLE_TOKEN"].nil?
     end
 
     def self.slack?
