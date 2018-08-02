@@ -13,7 +13,9 @@ module ApiClient
     access_token.token
   end
 
-  def get_config(installation_id, key)
+  def get_config(installation_id, repo_name, key)
+    Rails.logger.info "Getting Config #{key}"
+
     token = github_token(installation_id)
     value = nil
 
@@ -24,10 +26,11 @@ module ApiClient
     }
 
     rest_url = "https://api.github.com/repos/#{repo_name}/config/#{key}"
+    Rails.logger.info rest_url 
 
     begin
       github_result = RestClient.get(rest_url, header)
-      value = JSON.parse(github_result.body)["#{key}"]
+      value = JSON.parse(github_result.body)["value"]
     rescue RestClient::ExceptionWithResponse => e
       Rails.logger.info e.response
     end

@@ -64,11 +64,11 @@ module Heaven
       end
 
       def slack_webhook_url
-        ENV["SLACK_WEBHOOK_URL"]
+        ENV["SLACK_WEBHOOK_URL"] || get_config(installation_id, name_with_owner, "SLACK_WEBHOOK_URL")
       end
 
       def slack_bot_name
-        ENV["SLACK_BOT_NAME"] || "hubot"
+        ENV["SLACK_BOT_NAME"] || get_config(installation_id, name_with_owner, "SLACK_BOT_NAME") || "hubot"
       end
 
       def slack_bot_icon

@@ -9,10 +9,15 @@ module Heaven
   # The Notifier module
   module Notifier
     def self.for(payload)
-      if particle?
-        ::Heaven::Notifier::Particle.new(payload)
-      elsif slack?
+      
+      Rails.logger.info "Selecting Notifier"
+      # @data = payload
+      @default = ::Heaven::Notifier::Default.new(payload)
+      
+      if slack?
         ::Heaven::Notifier::Slack.new(payload)
+      elsif particle?
+        ::Heaven::Notifier::Particle.new(payload)
       elsif hipchat?
         ::Heaven::Notifier::Hipchat.new(payload)
       elsif flowdock?
@@ -24,12 +29,21 @@ module Heaven
       end
     end
 
+    def self.installation_id
+      @default.installation_id
+      # @data["installation"]["id"]
+    end
+ 
+    def self.name_with_owner
+      @default.name_with_owner
+    end
+ 
     def self.particle?
-      !ENV["PARTICLE_TOKEN"].nil?
+      !ENV["PARTICLE_TOKEN"].nil? || !@default.get_config(installation_id, name_with_owner, "PARTICLE_TOKEN").nil?
     end
 
     def self.slack?
-      !ENV["SLACK_WEBHOOK_URL"].nil?
+      !ENV["SLACK_WEBHOOK_URL"].nil? || !@default.get_config(installation_id, name_with_owner, "SLACK_WEBHOOK_URL").nil?
     end
 
     def self.hipchat?
