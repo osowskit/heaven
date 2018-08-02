@@ -13,6 +13,27 @@ module ApiClient
     access_token.token
   end
 
+  def get_config(installation_id, key)
+    token = github_token(installation_id)
+    value = nil
+
+    header = {
+      Accept: "application/vnd.github.oxen-preview+json",
+      Authorization: "token #{token}",
+      user_agent: "heaven-github-app"
+    }
+
+    rest_url = "https://api.github.com/repos/#{repo_name}/config/#{key}"
+
+    begin
+      github_result = RestClient.get(rest_url, header)
+      value = JSON.parse(github_result.body)["#{key}"]
+    rescue RestClient::ExceptionWithResponse => e
+      puts e.response
+    end
+    value
+  end
+
   def create_check_run(installation_id, repo_name, payload)
     token = github_token(installation_id)
 
