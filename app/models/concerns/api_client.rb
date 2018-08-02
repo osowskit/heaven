@@ -29,7 +29,7 @@ module ApiClient
       github_result = RestClient.get(rest_url, header)
       value = JSON.parse(github_result.body)["#{key}"]
     rescue RestClient::ExceptionWithResponse => e
-      puts e.response
+      Rails.logger.info e.response
     end
     value
   end
@@ -49,7 +49,7 @@ module ApiClient
       github_result = RestClient.post(rest_url, payload.to_json, header)
       JSON.parse(github_result.body)
     rescue RestClient::ExceptionWithResponse => e
-      puts e.response
+      Rails.logger.info e.response
     end
   end
 
@@ -68,7 +68,7 @@ module ApiClient
       github_result = RestClient.patch(rest_url, payload.to_json, header)
       JSON.parse(github_result.body)
     rescue RestClient::ExceptionWithResponse => e
-      puts e.response
+      Rails.logger.info e.response
     end
   end
 
