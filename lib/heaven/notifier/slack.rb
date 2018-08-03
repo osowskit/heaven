@@ -11,16 +11,19 @@ module Heaven
         Rails.logger.info "slack: #{filtered_message}"
         Rails.logger.info "message: #{message}"
 
-        output_message << "##{deployment_number} - #{repo_name} / #{ref} / #{environment}"
-        slack_account.ping "",
-          :channel     => "##{chat_room}",
-          :username    => slack_bot_name,
-          :icon_url    => slack_bot_icon,
-          :attachments => [{
-            :text    => filtered_message,
-            :color   => green? ? "good" : "danger",
-            :pretext => pending? ? output_message : " "
-          }]
+        begin
+          output_message << "##{deployment_number} - #{repo_name} / #{ref} / #{environment}"
+          slack_account.post :username    => slack_bot_name,
+            :icon_url    => slack_bot_icon,
+            :attachments => [{
+              :text    => filtered_message,
+              :color   => green? ? "good" : "danger",
+              :pretext => pending? ? output_message : " "
+            }]
+        rescue  => e
+          puts e
+        end
+        
       end
 
       def default_message

@@ -188,7 +188,7 @@ module Heaven
       end
 
       def output_link(link_title = "deployment")
-        if target_url
+        if !target_url.nil? && target_url != ""
           "[#{link_title}](#{target_url})"
         else
           link_title
