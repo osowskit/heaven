@@ -31,6 +31,10 @@ module Heaven
         end
       end
 
+      def in_progress?
+        %w{queued pending in_progress}.include?(state)
+      end
+
       def pending?
         state == "pending"
       end
@@ -48,7 +52,7 @@ module Heaven
       end
 
       def green?
-        %w{pending success}.include?(state)
+        %w{success}.include?(state)
       end
 
       def deployment_status_data

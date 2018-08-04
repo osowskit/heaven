@@ -27,9 +27,9 @@ class Deployment
       check_run["id"]
     end
 
-    def update
+    def update(conclusion)
       # disable Gist for now
-      Rails.logger.info update_params
+      Rails.logger.info update_params(conclusion)
       
       update_check_run(installation_id, repo_fullname, check_run_id, update_params)
     end
@@ -54,11 +54,11 @@ class Deployment
       }
     end
 
-    def update_params
+    def update_params(conclusion)
       puts "updating params"
       params = {
         :status => "completed",
-        :conclusion => "success",
+        :conclusion => conclusion,
         :completed_at => Time.now.iso8601,
         :output   => {
           :title   => "Deploying to #{environment}",

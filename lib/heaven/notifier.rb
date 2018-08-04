@@ -1,7 +1,4 @@
 require "heaven/notifier/default"
-require "heaven/notifier/campfire"
-require "heaven/notifier/hipchat"
-require "heaven/notifier/flowdock"
 require "heaven/notifier/slack"
 require "heaven/notifier/particle"
 

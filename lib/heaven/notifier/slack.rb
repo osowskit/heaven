@@ -13,11 +13,20 @@ module Heaven
 
         begin
           output_message << "##{deployment_number} - #{repo_name} / #{ref} / #{environment}"
+          
+          if in_progress?
+            color = "warning"
+          elsif green?
+            color = "good"
+          else 
+            color = "danger"
+          end
+
           slack_account.post :username    => slack_bot_name,
             :icon_url    => slack_bot_icon,
             :attachments => [{
               :text    => filtered_message,
-              :color   => green? ? "good" : "danger",
+              :color   => color,
               :pretext => pending? ? output_message : " "
             }]
         rescue  => e

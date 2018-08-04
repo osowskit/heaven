@@ -178,7 +178,8 @@ module Heaven
 
       def notify
         update_output
-        update_check_run
+        # Netural conclusion for now
+        update_check_run("neutral")
         last_child.success? ? status.success! : status.failure!
       end
 
