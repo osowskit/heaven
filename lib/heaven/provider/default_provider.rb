@@ -173,7 +173,7 @@ module Heaven
         checkrun.stderr = File.read(stderr_file) if File.exist?(stderr_file)
         checkrun.stdout = File.read(stdout_file) if File.exist?(stdout_file)
         
-        checkrun.update
+        checkrun.update("neutral")
       end
 
       def notify
