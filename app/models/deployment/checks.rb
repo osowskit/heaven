@@ -31,7 +31,7 @@ class Deployment
       # disable Gist for now
       Rails.logger.info update_params(conclusion)
       
-      update_check_run(installation_id, repo_fullname, check_run_id, update_params)
+      update_check_run(installation_id, repo_fullname, check_run_id, update_params(conclusion))
     end
 
     def url
