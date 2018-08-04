@@ -135,7 +135,7 @@ module Heaven
         end
 
         output.update
-        checkrun.update
+        checkrun.update("neutral")
         if build && build.success?
           status.success!
         else
