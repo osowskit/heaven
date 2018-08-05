@@ -104,7 +104,7 @@ module Heaven
       end
 
       def chat_user
-        return "Heaven" if deployment_payload.["notify"].nil?
+        return "Heaven" if deployment_payload["notify"].nil?
         deployment_payload["notify"]["user_name"] ||
           deployment_payload["notify"]["user"] || "unknown"
       end
