@@ -37,6 +37,8 @@ module Heaven
     end
 
     def self.provider_name_for(data)
+      Rails.logger.info "Provider: looking provider in payload"
+      
       return unless data &&
                     data.key?("deployment") &&
                     data["deployment"].key?("payload") &&
