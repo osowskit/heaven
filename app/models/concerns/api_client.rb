@@ -13,6 +13,29 @@ module ApiClient
     access_token.token
   end
 
+  def get_salt
+    ENV["SALT"]
+  end
+
+  def cipher_key(repo_id, installation_id)
+    pass = repo_id.to_s + installation_id.to_s
+    salt = get_salt
+    iter = 100
+    key_len = 16
+    key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(pass, salt, iter, key_len)
+  end
+
+  # Assumes the data is Base64 encoded
+  def decrypt!(data, repo_id, installation_id)
+    encrypted_data = Base64.decode64(data)
+
+    cipher = OpenSSL::Cipher::AES.new(128, :CBC)
+    cipher.decrypt
+    cipher.key = cipher_key(repo_id, installation_id)
+    
+    decrypted = cipher.update(encrypted_data) + cipher.final
+  end
+
   def get_config(installation_id, repo_name, key)
     Rails.logger.info "Getting Config #{key}"
 
@@ -31,6 +54,7 @@ module ApiClient
     begin
       github_result = RestClient.get(rest_url, header)
       value = JSON.parse(github_result.body)["value"]
+      value = decrypt!(value)
     rescue RestClient::ExceptionWithResponse => e
       Rails.logger.info e.response
     end
