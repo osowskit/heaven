@@ -32,8 +32,8 @@ module ApiClient
     cipher = OpenSSL::Cipher::AES.new(128, :CBC)
     cipher.decrypt
     cipher.key = cipher_key(repo_id, installation_id)
-    
-    decrypted = cipher.update(encrypted_data) + cipher.final
+    decrypted = cipher.update(encrypted_data)
+    decrypted << cipher.final
   end
 
   def get_config(installation_id, repo_name, key)
@@ -52,11 +52,14 @@ module ApiClient
     Rails.logger.info rest_url 
 
     begin
+      repo_id = api(installation_id).repo(repo_name).id
       github_result = RestClient.get(rest_url, header)
-      value = JSON.parse(github_result.body)["value"]
-      value = decrypt!(value)
+      encrypted_value = JSON.parse(github_result.body)["value"]
+      value = decrypt!(encrypted_value, repo_id, installation_id)
     rescue RestClient::ExceptionWithResponse => e
       Rails.logger.info e.response
+    rescue => other
+      Rails.logger.info other
     end
     value
   end
