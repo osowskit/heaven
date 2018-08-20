@@ -1,10 +1,7 @@
 require "heaven/provider/default_provider"
-require "heaven/provider/capistrano"
 require "heaven/provider/heroku"
 require "heaven/provider/fabric"
 require "heaven/provider/elastic_beanstalk"
-require "heaven/provider/dpl"
-require "heaven/provider/bundler_capistrano"
 require "heaven/provider/ansible"
 require "heaven/provider/shell"
 
@@ -14,10 +11,8 @@ module Heaven
   module Provider
     PROVIDERS ||= {
       "heroku"             => HerokuHeavenProvider,
-      "capistrano"         => Capistrano,
       "fabric"             => Fabric,
       "elastic_beanstalk"  => ElasticBeanstalk,
-      "bundler_capistrano" => BundlerCapistrano,
       "ansible"            => Ansible,
       "shell"              => Shell
     }
