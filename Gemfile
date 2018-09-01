@@ -13,10 +13,13 @@ gem "faraday"
 gem "faraday_middleware"
 gem "jwt"
 gem "dotenv"
-gem 'pg', '~> 0.18.4'
+gem 'pg'
 gem 'nokogiri', '1.8.2'
 gem 'rest-client'
 gem 'json'
+gem "omniauth-heroku"
+gem "excon"
+gem "multi_json"
 
 # Providers
 gem "dpl",        "1.5.7"

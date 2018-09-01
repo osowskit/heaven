@@ -7,3 +7,5 @@ require 'yajl/json_gem'
 require 'aws-sdk'
 require 'heaven'
 require "active_support/core_ext/hash/indifferent_access"
+require 'omniauth'
+require "omniauth-heroku"

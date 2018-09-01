@@ -1,5 +1,6 @@
 require "heaven/provider/default_provider"
 require "heaven/provider/heroku"
+require "heaven/provider/heroku_container"
 require "heaven/provider/fabric"
 require "heaven/provider/elastic_beanstalk"
 require "heaven/provider/ansible"
