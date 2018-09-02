@@ -12,6 +12,7 @@ module Heaven
   module Provider
     PROVIDERS ||= {
       "heroku"             => HerokuHeavenProvider,
+      "heroku_container"   => HerokuContainerHeavenProvider,
       "fabric"             => Fabric,
       "elastic_beanstalk"  => ElasticBeanstalk,
       "ansible"            => Ansible,

@@ -1,10 +1,31 @@
 module Heaven
   # Top-level module for providers.
   module Provider
+    module HerokuContainerApiClient
+      def http_options(token)
+        {
+          :url     => "https://api.heroku.com",
+          :headers => {
+            "Accept"        => "application/vnd.heroku+json; version=3",
+            "Content-Type"  => "application/json",
+            "Authorization" => "Bearer #{token}")
+          }
+        }
+      end
+
+      def http(token)
+        @http ||= Faraday.new(http_options) do |faraday|
+          faraday.request :url_encoded
+          faraday.adapter Faraday.default_adapter
+          faraday.response :logger unless %w{staging production}.include?(Rails.env)
+        end
+      end
+    end
 
     # A heroku build object.
     class HerokuContainerBuild
-      include HerokuApiClient
+      include HerokuContainerApiClient
+      include ApiClient
 
       attr_accessor :id, :info, :name
       def initialize(name, id)
@@ -80,12 +101,16 @@ module Heaven
 
       def get_docker_tag
         # values_url
-        tag = data.inputs[0].attributes.tag
-        server = data.inputs[0].attributes.registry.server
+        # look up Values API tag :(
+        server = custom_payload_config["server"]
+        tag = custom_payload_config["tag"]
+        
+        #tag = data.inputs[0].attributes.tag
+        #server = data.inputs[0].attributes.registry.server
         {"tag": tag, "server": server}
       end
 
-      def pull_image
+      def pull_image  
         docker_info = get_docker_tag
         token = github_token(installation_id)
         execute_and_log(["docker", "login", "-u", "token", "-p", token, docker_info["server"]])
