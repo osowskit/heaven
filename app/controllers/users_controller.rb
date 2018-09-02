@@ -27,7 +27,7 @@ class UsersController < ActionController::Base
       @client = api(session[:installation_id])
       response = @client.list_installation_repos
       response.repositories.each do | repo |
-        encrypted_data = encrypt!("data", repo.id, session[:installation_id])
+        encrypted_data = encrypt!(session[:heroku_oauth_token], repo.id, session[:installation_id])
         set_config(session[:installation_id], repo.full_name, "heroku_oauth_token", encrypted_data)
       end
       
