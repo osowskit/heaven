@@ -8,7 +8,7 @@ module Heaven
           :headers => {
             "Accept"        => "application/vnd.heroku+json; version=3",
             "Content-Type"  => "application/json",
-            "Authorization" => "Bearer #{token}")
+            "Authorization" => "Bearer #{token}"
           }
         }
       end
@@ -28,14 +28,15 @@ module Heaven
       include ApiClient
 
       attr_accessor :id, :info, :name
-      def initialize(name, id)
+      def initialize(name, id, repo_name)
         @id   = id
         @name = name
+        @token = get_config(installation_id, repo_name, "heroku_oauth_token")
         @info = info!
       end
 
       def info!
-        response = http.get do |req|
+        response = http(@token).get do |req|
           req.url "/apps/#{name}/builds/#{id}"
         end
         Rails.logger.info "#{response.status} response for Heroku build info for #{id}"
@@ -43,7 +44,7 @@ module Heaven
       end
 
       def output
-        response = http.get do |req|
+        response = http(@token).get do |req|
           req.url "/apps/#{name}/builds/#{id}/result"
         end
         Rails.logger.info "#{response.status} response for Heroku build output for #{id}"
@@ -86,12 +87,13 @@ module Heaven
 
     # The heroku provider.
     class HerokuContainerHeavenProvider < DefaultProvider
-      include HerokuApiClient
+      include HerokuContainerApiClient
 
       attr_accessor :build
       def initialize(guid, payload)
         super
         @name = "heroku_container"
+        @token = get_config(installation_id, repo_name, "heroku_oauth_token")
       end
 
       def app_name
@@ -118,11 +120,14 @@ module Heaven
       end
       
       def push_image
+        # Get from GitHub
         docker_info = get_docker_tag
         puts image = %x( docker images -a | grep "#{docker_info["server"]}" | awk '{print $3}' )
         image = image.chomp
         puts tag = %x( docker tag #{image} registry.heroku.com/#{app_name}/web )
-        puts login = %x( docker login --username=_ -p "" registry.heroku.com )
+        
+        # Push to Heroku
+        puts login = %x( docker login --username=_ -p "#{@token}" registry.heroku.com )
         puts push = %x( docker push registry.heroku.com/#{app_name}/web )
       end
       
@@ -140,7 +145,7 @@ module Heaven
         response = push_image
         return unless response.success?
         body   = JSON.parse(response.body)
-        @build = HerokuBuild.new(@name, body["id"])
+        @build = HerokuBuild.new(@name, body["id"], name_with_owner)
 
         until build.completed?
           sleep 10
@@ -171,7 +176,7 @@ module Heaven
       private
 
       def create_app
-        http.post do |req|
+        http(@token).post do |req|
           req.url "/apps"
           body = {
             :region => "us",
