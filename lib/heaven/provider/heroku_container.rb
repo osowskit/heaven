@@ -14,7 +14,7 @@ module Heaven
       end
 
       def http(token)
-        @http ||= Faraday.new(http_options) do |faraday|
+        @http ||= Faraday.new(http_options(token)) do |faraday|
           faraday.request :url_encoded
           faraday.adapter Faraday.default_adapter
           faraday.response :logger unless %w{staging production}.include?(Rails.env)
@@ -93,7 +93,8 @@ module Heaven
       def initialize(guid, payload)
         super
         @name = "heroku_container"
-        @token = get_config(installation_id, repo_name, "heroku_oauth_token")
+        puts "initialize"
+        puts @token = get_config(installation_id, name_with_owner, "heroku_oauth_token")
       end
 
       def app_name
@@ -104,8 +105,8 @@ module Heaven
       def get_docker_tag
         # values_url
         # look up Values API tag :(
-        server = custom_payload_config["server"]
-        tag = custom_payload_config["tag"]
+        puts server = custom_payload["server"]
+        puts tag = custom_payload["tag"]
         
         #tag = data.inputs[0].attributes.tag
         #server = data.inputs[0].attributes.registry.server
@@ -115,18 +116,20 @@ module Heaven
       def pull_image  
         docker_info = get_docker_tag
         token = github_token(installation_id)
-        execute_and_log(["docker", "login", "-u", "token", "-p", token, docker_info["server"]])
-        execute_and_log(["docker", "pull", docker_info["tag"]])
+        puts image = %x( docker login -u token -p "#{token}" "#{docker_info[:server]}")
+        #execute_and_log(["docker", "login", "-u", "token", "-p", token, docker_info[:server]])
+        puts pull = %x( docker pull "#{docker_info[:tag]}")
       end
       
       def push_image
         # Get from GitHub
         docker_info = get_docker_tag
-        puts image = %x( docker images -a | grep "#{docker_info["server"]}" | awk '{print $3}' )
+        puts image = %x( docker images -a | grep "#{docker_info[:server]}" | awk '{print $3}' )
         image = image.chomp
         puts tag = %x( docker tag #{image} registry.heroku.com/#{app_name}/web )
         
         # Push to Heroku
+        puts "token #{@token}"
         puts login = %x( docker login --username=_ -p "#{@token}" registry.heroku.com )
         puts push = %x( docker push registry.heroku.com/#{app_name}/web )
       end
@@ -136,16 +139,19 @@ module Heaven
       end
       
       def execute
+        puts "execute"
         status.started!
-        app_response = create_app
-        @name = JSON.parse(app_response.body)["name"]
+        if false
+          puts app_response = create_app
+          puts @name = app_response["name"]
+        else
+          @name = "evening-beyond-93198"
+        end
         
         pull_image
+        puts push_image
 
-        response = push_image
-        return unless response.success?
-        body   = JSON.parse(response.body)
-        @build = HerokuBuild.new(@name, body["id"], name_with_owner)
+        @build = HerokuBuild.new(@name, app_response["id"], name_with_owner)
 
         until build.completed?
           sleep 10
@@ -176,7 +182,7 @@ module Heaven
       private
 
       def create_app
-        http(@token).post do |req|
+        response = http(@token).post do |req|
           req.url "/apps"
           body = {
             :region => "us",
@@ -184,6 +190,7 @@ module Heaven
           }
           req.body = JSON.dump(body)
         end
+        JSON.parse(response.body)
       end
 
       def build_request

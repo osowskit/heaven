@@ -12,6 +12,11 @@ class UsersController < ActionController::Base
     render inline: "<html><a href='/auth/heroku'>Sign in with Heroku</a>
     </html>"
   end
+  
+  def clear
+    session[:heroku_oauth_token]
+    redirect_to "/login"
+  end
 
   def postinstall
     session[:installation_id] = params[:installation_id]
@@ -30,8 +35,7 @@ class UsersController < ActionController::Base
         encrypted_data = encrypt!(session[:heroku_oauth_token], repo.id, session[:installation_id])
         set_config(session[:installation_id], repo.full_name, "heroku_oauth_token", encrypted_data)
       end
-      
-      puts session[:heroku_oauth_token]
+
       api = Excon.new(ENV["HEROKU_API_URL"] || "https://api.heroku.com",
         headers: { "Authorization" => "Bearer #{session[:heroku_oauth_token]}",
             "Accept" => "application/vnd.heroku+json; version=3"},

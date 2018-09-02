@@ -15,7 +15,9 @@ Heaven::Application.routes.draw do
     mount Resque::Server.new, :at => "/resque"
   end
 
-  get  "/login" => "users#login"
+  get "/login" => "users#login"
+
+  get "/user/clear" => "users#clear"
 
   get "/auth/heroku/callback" => "users#token"
 
