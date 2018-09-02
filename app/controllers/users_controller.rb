@@ -1,5 +1,6 @@
 # A controller to handle incoming webhook events
 class UsersController < ActionController::Base
+  include ApiClient
 
   def token
     session[:heroku_oauth_token] =
@@ -13,13 +14,23 @@ class UsersController < ActionController::Base
   end
 
   def postinstall
-    session[:installation_id]
+    session[:installation_id] = params[:installation_id]
+    redirect_to "/login"
   end
 
   def show
     if !session[:heroku_oauth_token]
       redirect_to "/login"
     else
+      # Query all Repos for session[:installation_id]
+      # Add session[:heroku_oauth_token] as Config
+      @client = api(session[:installation_id])
+      response = @client.list_installation_repos
+      response.repositories.each do | repo |
+        encrypted_data = encrypt!("data", repo.id, session[:installation_id])
+        set_config(session[:installation_id], repo.full_name, "heroku_oauth_token", encrypted_data)
+      end
+      
       puts session[:heroku_oauth_token]
       api = Excon.new(ENV["HEROKU_API_URL"] || "https://api.heroku.com",
         headers: { "Authorization" => "Bearer #{session[:heroku_oauth_token]}",

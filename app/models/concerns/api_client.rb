@@ -26,6 +26,16 @@ module ApiClient
   end
 
   # Assumes the data is Base64 encoded
+  def encrypt!(data, repo_id, installation_id)
+    cipher = OpenSSL::Cipher::AES.new(128, :CBC)
+    cipher.encrypt
+    cipher.key = cipher_key(repo_id, installation_id)
+    
+    encrypted_data = cipher.update(data) + cipher.final
+    encrypted = Base64.encode64(encrypted_data)
+  end
+
+  # Assumes the data is Base64 encoded
   def decrypt!(data, repo_id, installation_id)
     encrypted_data = Base64.decode64(data)
 
@@ -34,6 +44,31 @@ module ApiClient
     cipher.key = cipher_key(repo_id, installation_id)
     decrypted = cipher.update(encrypted_data)
     decrypted << cipher.final
+  end
+
+  def set_config(installation_id, repo_name, key, data)
+    Rails.logger.info "Setting Config #{key}"
+
+    token = github_token(installation_id)
+    value = nil
+
+    header = {
+      Accept: "application/vnd.github.oxen-preview+json",
+      Authorization: "token #{token}",
+      user_agent: "heaven-github-app"
+    }
+
+    rest_url = "https://api.github.com/repos/#{repo_name}/config/#{key}"
+    Rails.logger.info rest_url 
+
+    begin
+      payload = {"value" => data }
+      response = RestClient.put(rest_url, payload.to_json , header)
+    rescue RestClient::ExceptionWithResponse => e
+      Rails.logger.info e.response
+    rescue => other
+      Rails.logger.info other
+    end
   end
 
   def get_config(installation_id, repo_name, key)
