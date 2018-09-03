@@ -33,8 +33,13 @@ class UsersController < ActionController::Base
       @client = api(session[:installation_id])
       response = @client.list_installation_repos
       response.repositories.each do | repo |
+        # store 8.hour limited Access Token
         encrypted_data = encrypt!(session[:heroku_oauth_token], repo.id, session[:installation_id])
         set_config(session[:installation_id], repo.full_name, "heroku_oauth_token", encrypted_data)
+        
+        # Store `refresh_token` 
+        encrypted_data = encrypt!(session[:heroku_refresh_token], repo.id, session[:installation_id])
+        set_config(session[:installation_id], repo.full_name, "heroku_refresh_token", encrypted_data)
       end
 
       api = Excon.new(ENV["HEROKU_API_URL"] || "https://api.heroku.com",
