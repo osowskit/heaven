@@ -6,9 +6,10 @@ module Heaven
         {
           :url     => "https://api.heroku.com",
           :headers => {
-            "Accept"        => "application/vnd.heroku+json; version=3",
+            "Accept"        => "application/vnd.heroku+json; version=3.docker-releases",
             "Content-Type"  => "application/json",
-            "Authorization" => "Bearer #{token}"
+            "Authorization" => "Bearer #{token}",
+            "Range" => "version ..; max=1, order=desc"
           }
         }
       end
@@ -23,26 +24,47 @@ module Heaven
     end
 
     # A heroku build object.
-    class HerokuContainerBuild
+    class HerokuRelease
       include HerokuContainerApiClient
       include ApiClient
 
-      attr_accessor :id, :info, :name
-      def initialize(name, id, repo_name)
-        @id   = id
+      attr_accessor :release_id, :image_digest, :info, :name, :process
+      def initialize(name, image_digest, token, process="web")
+        @image_digest = image_digest
         @name = name
-        @token = get_config(installation_id, repo_name, "heroku_oauth_token")
+        @token = token
+        @process = process
+        response = release!
+        @release_id = response[0]["id"]
         @info = info!
       end
 
       def info!
         response = http(@token).get do |req|
-          req.url "/apps/#{name}/builds/#{id}"
+          req.url "/apps/#{name}/releases"
         end
-        Rails.logger.info "#{response.status} response for Heroku build info for #{id}"
-        @info = JSON.parse(response.body)
+        Rails.logger.info "#{response.status} response for Heroku release info for #{@release_id}"
+        @info = JSON.parse(response.body).first
       end
 
+      def release!
+        response = http(@token).patch do |req|
+          req.url "/apps/#{name}/formation"
+          body = {
+            :updates => [
+              {
+                :type => "#{@process}",
+                :docker_image => "#{image_digest}"
+              }
+             ]
+          }
+          puts "request body"
+          puts JSON.dump(body)
+          req.body = JSON.dump(body)
+        end
+        JSON.parse(response.body)
+      end
+      
       def output
         response = http(@token).get do |req|
           req.url "/apps/#{name}/builds/#{id}/result"
@@ -68,7 +90,7 @@ module Heaven
       end
 
       def refresh!
-        Rails.logger.info "Refreshing build #{id}"
+        Rails.logger.info "Refreshing release #{id}"
         info!
       end
 
@@ -129,9 +151,10 @@ module Heaven
         puts tag = %x( docker tag #{image} registry.heroku.com/#{app_name}/web )
         
         # Push to Heroku
-        puts "token #{@token}"
         puts login = %x( docker login --username=_ -p "#{@token}" registry.heroku.com )
-        puts push = %x( docker push registry.heroku.com/#{app_name}/web )
+        push_output = %x( docker push registry.heroku.com/#{app_name}/web )
+        image_sha = %x( docker image inspect "#{image}" -f '{{ .Id }}' )
+        image_sha.chomp
       end
       
       def clean_up
@@ -139,32 +162,29 @@ module Heaven
       end
       
       def execute
-        puts "execute"
         status.started!
-        if false
-          puts app_response = create_app
-          puts @name = app_response["name"]
-        else
-          @name = "evening-beyond-93198"
-        end
-        
+
+        puts app_response = create_app
+        puts @name = app_response["name"]
+        app_id =  app_response["id"]
+
         pull_image
-        puts push_image
+        image_digest = push_image
+        @release = HerokuRelease.new(@name, image_digest, @token)
 
-        @build = HerokuBuild.new(@name, app_response["id"], name_with_owner)
-
-        until build.completed?
+        until @release.completed?
           sleep 10
-          build.refresh!
+          @release.refresh!
         end
       end
 
       def notify
-        if build
-          output.stderr = build.stderr
-          output.stdout = build.stdout
-          checkrun.stderr = build.stderr
-          checkrun.stdout = build.stdout
+        if @release
+          message = "Success #{@name}.herokuapp.com"
+          output.stderr = message
+          output.stdout = message
+          checkrun.stderr = message
+          checkrun.stdout = message
         else
           output.stderr = "Unable to create a build"
           checkrun.stderr = "Unable to create a build"
