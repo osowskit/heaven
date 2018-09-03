@@ -5,6 +5,7 @@ class UsersController < ActionController::Base
   def token
     session[:heroku_oauth_token] =
       request.env["omniauth.auth"]["credentials"]["token"]
+    session[:heroku_refresh_token] = request.env["omniauth.auth"]["credentials"]["refresh_token"]
     redirect_to "/user"
   end
   
@@ -43,7 +44,7 @@ class UsersController < ActionController::Base
       res = api.get(path: "/account", expects: 200)
       user_email = JSON.parse(res.body)["email"]
 
-      render inline: "<HTML>Hi #{CGI.escapeHTML(user_email)} #{CGI.escapeHTML(session[:heroku_oauth_token])}</HTML>"
+      render inline: "<HTML>Hi #{CGI.escapeHTML(user_email)} #{CGI.escapeHTML(session[:heroku_oauth_token])} and #{session[:heroku_refresh_token]}</HTML>"
     end
   end
 end
