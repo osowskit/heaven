@@ -21,13 +21,22 @@ class Deployment
       end
     end
 
+    # Represents URL to log information
     def url
-      "#{Octokit.api_endpoint}repos/#{nwo}/deployments/#{number}"
+      if @checks_url.nil?
+        "#{Octokit.api_endpoint}repos/#{nwo}/deployments/#{number}"
+      else
+        @checks_url
+      end
+    end
+
+    def set_url(in_url)
+      @checks_url = in_url
     end
 
     def payload
       {
-        "target_url" => output,
+        "target_url" => url,
         "description" => description,
         "environment_url" => environment_url,
         :accept => "application/vnd.github.flash-preview"

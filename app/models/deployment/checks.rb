@@ -3,7 +3,7 @@ class Deployment
   # All of the process output from a deployment
   class Checks
     include ApiClient
-    attr_accessor :check_run, :check_suite, :sha, :title, :installation_id, :repo_fullname, :environment, :stderr, :stdout
+    attr_accessor :check_run, :check_suite, :sha, :title, :installation_id, :repo_fullname, :environment, :app_name, :stderr, :stdout
 
     def initialize(repo_fullname, number, sha, environment, installation_id)
       @repo_fullname = repo_fullname
@@ -13,6 +13,7 @@ class Deployment
       @installation_id = installation_id
       @stdout = ""
       @stderr = ""
+      @app_name = ""
     end
 
     def check_run
@@ -28,22 +29,20 @@ class Deployment
     end
 
     def update(conclusion)
-      # disable Gist for now
       Rails.logger.info update_params(conclusion)
       
       update_check_run(installation_id, repo_fullname, check_run_id, update_params(conclusion))
     end
 
     def url
-      return nil
-      gist.html_url
+      check_run["html_url"]
     end
 
     private
 
     def create_params
       {
-        :name        => "Deployment : #{environment}",
+        :name        => "Deployment Log : #{environment}",
         :head_sha    => @sha,
         :status      => "in_progress",
         :output      => { 
@@ -55,7 +54,6 @@ class Deployment
     end
 
     def update_params(conclusion)
-      puts "updating params"
       params = {
         :status => "completed",
         :conclusion => conclusion,
@@ -74,8 +72,6 @@ class Deployment
       unless stdout.empty?
         params[:output].merge!({ :text => stdout })
       end
-
-      puts params
 
       params
     end
