@@ -27,17 +27,11 @@ module Heaven
     class HerokuContainerHeavenProvider < DefaultProvider
       include HerokuContainerApiClient
 
-      attr_accessor :push_output
+      attr_accessor :push_output, :name
       def initialize(guid, payload)
         super
-        @name = ""
-        puts "initialize"
+        @name = "HeavenDefault"
         puts @token = get_config(installation_id, name_with_owner, "heroku_oauth_token")
-      end
-
-      def app_name
-        # force new environment
-        @name
       end
 
       def get_docker_tag
@@ -96,6 +90,7 @@ module Heaven
         output.update
         checkrun.update("neutral")
         if @succeeded
+          status.set_url(checkrun.url)
           status.success!
         else
           status.failure!
