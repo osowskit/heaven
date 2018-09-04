@@ -41,6 +41,7 @@ class Deployment
     end
 
     def setup_ssh
+      return nil
       FileUtils.mkdir_p ssh_directory
       FileUtils.chmod_R 0700, ssh_directory
 
