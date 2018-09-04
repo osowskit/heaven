@@ -144,7 +144,7 @@ module Heaven
       def push_image!
         # Get from GitHub
         docker_info = get_docker_tag
-        puts image = %x( docker images -a | grep "#{docker_info[:tag]}" | awk '{print $3}' )
+        puts image = %x( docker images -a | grep "#{docker_info[:tag].split(':')[0]}" | awk '{print $3}' )
         image = image.chomp
         puts tag = %x( docker tag #{image} registry.heroku.com/#{app_name}/web )
         
