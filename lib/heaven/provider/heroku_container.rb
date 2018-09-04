@@ -41,13 +41,18 @@ module Heaven
       end
 
       def get_docker_tag
-        # values_url
-        # look up Values API tag :(
-        puts server = custom_payload["server"]
-        puts tag = custom_payload["tag"]
-        
-        #tag = data.inputs[0].attributes.tag
-        #server = data.inputs[0].attributes.registry.server
+        tag = ""
+        server = ""
+        if flow_task?
+          response = api(installation_id).get(values_url, {
+            accept: "application/vnd.github.thanos-preview+json"
+          })
+          tag = response.inputs[0].attributes.tag
+          server = response.inputs[0].attributes.registry.server
+        else
+          server = custom_payload["server"]
+          tag = custom_payload["tag"]
+        end
         {"tag": tag, "server": server}
       end
 
@@ -139,7 +144,7 @@ module Heaven
       def push_image!
         # Get from GitHub
         docker_info = get_docker_tag
-        puts image = %x( docker images -a | grep "#{docker_info[:server]}" | awk '{print $3}' )
+        puts image = %x( docker images -a | grep "#{docker_info[:tag]}" | awk '{print $3}' )
         image = image.chomp
         puts tag = %x( docker tag #{image} registry.heroku.com/#{app_name}/web )
         

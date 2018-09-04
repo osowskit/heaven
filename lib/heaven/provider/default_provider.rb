@@ -61,13 +61,16 @@ module Heaven
         data["installation"]["id"]
       end
 
+      def flow_task?
+        !data["flow"].nil?
+      end
+
       def flow_task
-        return nil if data["flow"].nil? 
         @flow = data["flow"]["task"]
       end
       
       def values_url
-        return nil if flow_task.nil?
+        return nil if !flow_task?
         flow_task.values_url
       end
 
