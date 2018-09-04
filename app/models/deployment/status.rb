@@ -4,7 +4,7 @@ class Deployment
   class Status
     include ApiClient
 
-    attr_accessor :description, :number, :nwo, :output, :completed, :environment_url
+    attr_accessor :description, :number, :nwo, :output, :completed, :environment_url, :checks_url
     alias_method :completed?, :completed
 
     def initialize(nwo, number, installation_id)
@@ -24,7 +24,7 @@ class Deployment
     # Represents URL to log information
     def url
       if @checks_url.nil?
-        "#{Octokit.api_endpoint}repos/#{nwo}/deployments/#{number}"
+        "https://github.com/repos/#{nwo}/deployments/#{number}"
       else
         @checks_url
       end

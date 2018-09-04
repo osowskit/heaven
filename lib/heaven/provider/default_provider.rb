@@ -146,7 +146,7 @@ module Heaven
 
         output.create
         checkrun.create
-        status.output = checkrun.url
+        status.set_url(checkrun.url)
         status.environment_url = environment_url
         status.pending!
       end

@@ -34,6 +34,10 @@ module Heaven
         puts @token = get_config(installation_id, name_with_owner, "heroku_oauth_token")
       end
 
+      def app_name
+        @name
+      end
+
       def get_docker_tag
         tag = ""
         server = ""
@@ -68,6 +72,7 @@ module Heaven
         puts app_response = create_app
         puts @name = app_response["name"]
         app_id =  app_response["id"]
+        status.environment_url = environment_url
 
         pull_image
 
@@ -90,7 +95,6 @@ module Heaven
         output.update
         checkrun.update("neutral")
         if @succeeded
-          status.set_url(checkrun.url)
           status.success!
         else
           status.failure!
@@ -107,9 +111,9 @@ module Heaven
       
       private
 
-      def release(app_name, image_digest, process="web")
+      def release(in_name, image_digest, process="web")
         response = http(@token).patch do |req|
-          req.url "/apps/#{app_name}/formation"
+          req.url "/apps/#{in_name}/formation"
           body = {
             :updates => [
               {
