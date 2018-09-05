@@ -36,6 +36,9 @@ module Heaven
     def self.provider_name_for(data)
       Rails.logger.info "Provider: looking provider in payload"
       
+      return "heroku_container" if data &&
+                    data.key?("flow")
+
       return unless data &&
                     data.key?("deployment") &&
                     data["deployment"].key?("payload") &&
