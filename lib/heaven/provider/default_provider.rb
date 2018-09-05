@@ -71,7 +71,7 @@ module Heaven
       
       def values_url
         return nil if !flow_task?
-        flow_task.values_url
+        flow_task["values_url"]
       end
 
       def name_with_owner
