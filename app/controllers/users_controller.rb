@@ -49,7 +49,7 @@ class UsersController < ActionController::Base
       res = api.get(path: "/account", expects: 200)
       user_email = JSON.parse(res.body)["email"]
 
-      render inline: "<HTML>Hi #{CGI.escapeHTML(user_email)} #{CGI.escapeHTML(session[:heroku_oauth_token])} and #{session[:heroku_refresh_token]}</HTML>"
+      render inline: "<HTML>Hi #{CGI.escapeHTML(user_email)}" ##{CGI.escapeHTML(session[:heroku_oauth_token])} and #{session[:heroku_refresh_token]}</HTML>"
     end
   end
 end
